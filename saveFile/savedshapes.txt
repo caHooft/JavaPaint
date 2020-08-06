@@ -1,0 +1,3 @@
+group 0
+	ellipse 331 236 101 114
+		ellipse 377 353 100 98

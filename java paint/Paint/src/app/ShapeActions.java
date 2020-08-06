@@ -1,0 +1,125 @@
+package app;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+// used as the "BuyStock" replacement for the Command Pattern
+public class ShapeActions
+ {
+  //singleton object, Create instance
+  private static ShapeActions instance = new ShapeActions();
+
+  //Create new TextConverter
+  private TxtConverter f = new TxtConverter();
+
+  //Uses the PaintSurface
+  public PaintWindow surface;
+
+  //Create new list of actions (undo/redo)
+  public ArrayList<ArrayList<BaseShape>> undo = new ArrayList<ArrayList<BaseShape>>();
+  public ArrayList<ArrayList<BaseShape>> redo = new ArrayList<ArrayList<BaseShape>>();
+
+  //<<singleton object>>
+  //Return current instance
+  public static ShapeActions getInstance() 
+  {
+    return instance;
+  }
+
+  //Save the action performed
+  //not sure why this works/does it?
+  public void saveAction() 
+  {
+    undo.add(clone(surface.shapes));
+  }
+
+  //Undo the previous move
+  public void undo() 
+  {
+    if (undo.size() <= 0)
+      return;
+
+    redo.add(clone(surface.shapes));
+    surface.shapes = clone(undo.get(undo.size() - 1));
+    undo.remove(undo.size() - 1);
+    surface.repaint();
+  }
+
+  //Save the file
+  //this is prob fine but needs a look though the problem probebly lies by the selecting
+  public void save()
+  {
+    try 
+    {
+      f.SaveShapeToFile(surface.shapes);
+    }
+     catch (Exception ex)     
+    {
+      Logger.getLogger(ShapeActions.class.getName()).log(Level.SEVERE, null, ex);
+    }
+  }
+
+  //Load the previous saven file
+  //works
+  public void load()
+  {
+    try 
+    {
+      f.LoadShapeFromFile();
+    } 
+
+    catch (Exception ex)
+    {
+      Logger.getLogger(ShapeActions.class.getName()).log(Level.SEVERE, null, ex);
+    }
+  }
+
+  //Redo to previous move
+  public void redo() 
+  {
+    if (redo.size() <= 0)
+      return;
+
+    undo.add(clone(surface.shapes));
+    surface.shapes = clone(redo.get(redo.size() - 1));
+    redo.remove(redo.size() - 1);
+    surface.repaint();
+  }
+
+  //Clear all shapes from the surface
+  //works
+  public void clear() 
+  {
+    saveAction();
+    surface.shapes.clear();
+  }
+
+  //Add shape to the surface
+  //not 100% sure
+  public void addShapeToArray(BaseShape r) 
+  {
+    saveAction();
+    surface.shapes.add(r);
+  }
+
+  public void AddText(BaseShape r) 
+  {
+    saveAction();
+    surface.shapes.add(r);
+  }
+  
+  //Clone all shapes on the surface
+  public ArrayList<BaseShape> clone(ArrayList<BaseShape> list) 
+  {
+    ArrayList<BaseShape> clonedList = new ArrayList<BaseShape>(list.size());
+
+    for (BaseShape shape : list) 
+    {
+      clonedList.add(shape.clone());
+    }
+    
+    return clonedList;
+  }
+}
