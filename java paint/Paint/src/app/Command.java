@@ -31,4 +31,13 @@ public class Command
         }
         commands.clear();
     }
+
+    public void unExecuteCommand() 
+    {
+        for (ICommand command : commands) 
+        {
+            command.unExecute();
+        }
+        commands.clear();
+    }
 }

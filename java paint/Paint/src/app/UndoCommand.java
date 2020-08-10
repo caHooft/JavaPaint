@@ -1,16 +1,20 @@
 package app;
 
 //Command that will undo the previous action
-public class CommandUndo implements ICommand
+public class UndoCommand implements ICommand
 {
     private ShapeActions ShapeActions;
     //constructor
-    public CommandUndo(ShapeActions ShapeActions)
+    public UndoCommand(ShapeActions ShapeActions)
     {
         this.ShapeActions = ShapeActions;
     }
     //executes the command
     public void execute()
+    {
+        ShapeActions.undo();
+    }
+    public void unExecute()
     {
         ShapeActions.undo();
     }

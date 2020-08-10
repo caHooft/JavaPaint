@@ -2,12 +2,12 @@ package app;
 
 //command pattern
 //Redo shape command
-public class CommandRedo implements ICommand
+public class RedoCommand implements ICommand
 {
     private ShapeActions ShapeActions;
 
     //Constructor
-    public CommandRedo(ShapeActions ShapeActions)
+    public RedoCommand(ShapeActions ShapeActions)
     {
         this.ShapeActions = ShapeActions;
     }
@@ -16,5 +16,10 @@ public class CommandRedo implements ICommand
     public void execute()
     {
         ShapeActions.redo();
+    }
+
+    public void unExecute()
+    {
+        ShapeActions.undo();
     }
 }

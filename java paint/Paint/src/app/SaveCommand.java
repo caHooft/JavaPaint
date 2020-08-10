@@ -4,12 +4,12 @@ package app;
 //needs serieus look
 //the fundemental idea works
 //problem probebly with selecting /saving of groups
-public class CommandSave implements ICommand
+public class SaveCommand implements ICommand
 {
     private ShapeActions ShapeActions;
 
     //constructor
-    public CommandSave(ShapeActions ShapeActions)
+    public SaveCommand(ShapeActions ShapeActions)
     {
         this.ShapeActions = ShapeActions;
     }
@@ -18,5 +18,10 @@ public class CommandSave implements ICommand
     public void execute()
     {
         ShapeActions.save();
+    }
+
+    public void unExecute()
+    {
+        ShapeActions.undo();
     }
 }

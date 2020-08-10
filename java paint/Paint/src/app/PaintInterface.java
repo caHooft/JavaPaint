@@ -38,14 +38,15 @@ public class PaintInterface extends JFrame implements ActionListener
   //I used this pattern here because i only want 1 instance of Shapeactions
   //It also needs to be globally available
   private ShapeActions actions = ShapeActions.getInstance();
-  //private CommandVisitor sText = new CommandVisitor(actions);
-  private CommandUndo sUndo = new CommandUndo(actions);
-  private CommandRedo sRedo = new CommandRedo(actions);
-  private CommandClear sClear = new CommandClear(actions);
-  private CommandSave sSave = new CommandSave(actions);
-  private CommandLoad sLoad = new CommandLoad(actions);
+  private VisiorCommand sText = new VisiorCommand(actions);
+  private RedoCommand sRedo = new RedoCommand(actions);
+  private ClearCommand sClear = new ClearCommand(actions);
+  private SaveCommand sSave = new SaveCommand(actions);
+  private LoadCommand sLoad = new LoadCommand(actions);
 
-  public String shapeType = "Oval";
+  private UndoCommand sUndo = new UndoCommand(actions);
+
+  public String shapeType;
   public ArrayList<Shape> shapes = new ArrayList<Shape>();
 
   String[] textPos = new String[] { "Top", "Left", "Bottom", "Right"};
@@ -170,7 +171,7 @@ public class PaintInterface extends JFrame implements ActionListener
       //shapeType = (String) textList.getSelectedItem();
       //shapeType = m;
       
-      //command.addCommand(sText);
+      command.addCommand(sText);
       command.executeCommand();
 
     } 
@@ -178,7 +179,8 @@ public class PaintInterface extends JFrame implements ActionListener
     else if (actionEvent.getActionCommand().toString() == "Undo") 
     {
       command.addCommand(sUndo);
-      command.executeCommand();
+
+      command.unExecuteCommand();
     } 
 
     else if (actionEvent.getActionCommand().toString() == "Redo") 

@@ -2,12 +2,12 @@ package app;
 
 //command pattern
 //Clear shape command
-public class CommandClear implements ICommand
+public class ClearCommand implements ICommand
 {
     private ShapeActions ShapeActions;
 
     //Constructor
-    public CommandClear(ShapeActions ShapeActions)
+    public ClearCommand(ShapeActions ShapeActions)
     {
         this.ShapeActions = ShapeActions;
     }
@@ -16,5 +16,10 @@ public class CommandClear implements ICommand
     public void execute()
     {
         ShapeActions.clear();
+    }
+
+    public void unExecute()
+    {
+        ShapeActions.undo();
     }
 }

@@ -12,16 +12,17 @@ import java.awt.geom.*;
 //Create a concrete class exentding the visitable interface
 public class Circle extends BaseShape implements IVisitable 
 {
-    //Call the BaseShape constructor and fill in the behaviours.
+    // Call the BaseShape constructor and fill in the behaviours.
     Circle() 
     {
         super(new DrawCircleStrategy(), new MoveCircleStrategy(), new ResizeCircleStrategy(), new Ellipse2D.Float());
     }
-    //Accept the visitor
+
+    // Accept the visitor
     @Override
-    public String accept(IVisitor visitor) 
+    public void accept(IVisitor visitor) 
     {
-        return visitor.visit(this);
+        visitor.visit(this);
     }
     //Clone the current Circle Shape and return the cloned shape
     @Override
@@ -30,10 +31,12 @@ public class Circle extends BaseShape implements IVisitable
         BaseShape newbase;
         newbase = new Circle();
         newbase.shape = new Ellipse2D.Float(getX(), getY(), getWidth(), getHeight());
+        
         for (Text text : textList) 
         {
             newbase.addText(text.textPosition, text.text);
         }
+        
         return newbase;
     }
 

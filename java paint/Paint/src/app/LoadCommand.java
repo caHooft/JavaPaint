@@ -2,18 +2,24 @@ package app;
 
 //command pattern
 //load shape command
-public class CommandLoad implements ICommand
+public class LoadCommand implements ICommand
 {
     private ShapeActions ShapeActions;
 
     //constructor
-    public CommandLoad(ShapeActions ShapeActions)
+    public LoadCommand(ShapeActions ShapeActions)
     {
         this.ShapeActions = ShapeActions;
     }
     
     //Execute the command
-    public void execute(){
+    public void execute()
+    {
         ShapeActions.load();
+    }
+
+    public void unExecute()
+    {
+        ShapeActions.undo();
     }
 }

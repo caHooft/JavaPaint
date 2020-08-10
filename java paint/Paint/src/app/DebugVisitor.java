@@ -1,5 +1,5 @@
 package app;
-
+/*
 class DebugVisitor implements IVisitor 
 {
     public DebugVisitor()     
@@ -23,4 +23,5 @@ class DebugVisitor implements IVisitor
         
     }
 }
+*/
         

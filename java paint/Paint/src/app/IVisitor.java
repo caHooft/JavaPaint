@@ -1,4 +1,5 @@
 package app;
+import java.awt.*;
 
 //Visitor Pattern
 //visitor pattern allows adding of methods to classes without altering those classes in a mayor way
@@ -8,9 +9,11 @@ package app;
 //Create visitor interface
 interface IVisitor 
 {
+	void visit(Circle circle);    
+	void visit(Rectangle rectangle);   
 	//here i accept diffrent kinds of objects within my visitor
-	public String visit(Circle circle);
-	public String visit(Rectangle rectangle);
+	//public String visit(Circle circle);
+	//public String visit(Rectangle rectangle);
 	//public double visit(Liquor liquorItem);
 	//public double visit(Tobacco tobaccoItem);
 	//public double visit(Necessity necessityItem);
