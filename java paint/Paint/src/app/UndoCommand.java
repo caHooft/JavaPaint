@@ -14,8 +14,4 @@ public class UndoCommand implements ICommand
     {
         ShapeActions.undo();
     }
-    public void unExecute()
-    {
-        ShapeActions.undo();
-    }
 }

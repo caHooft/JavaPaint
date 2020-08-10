@@ -12,8 +12,4 @@ package app;
 public interface ICommand
 {
     void execute();
-    
-    //i want to try to add an Unexecute method here cuz that would make sence
-    //experimental though
-    void unExecute();
 }

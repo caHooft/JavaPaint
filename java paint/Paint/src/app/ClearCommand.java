@@ -17,9 +17,4 @@ public class ClearCommand implements ICommand
     {
         ShapeActions.clear();
     }
-
-    public void unExecute()
-    {
-        ShapeActions.undo();
-    }
 }

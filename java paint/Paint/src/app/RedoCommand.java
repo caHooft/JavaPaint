@@ -17,9 +17,4 @@ public class RedoCommand implements ICommand
     {
         ShapeActions.redo();
     }
-
-    public void unExecute()
-    {
-        ShapeActions.undo();
-    }
 }

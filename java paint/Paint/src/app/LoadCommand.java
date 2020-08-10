@@ -17,9 +17,4 @@ public class LoadCommand implements ICommand
     {
         ShapeActions.load();
     }
-
-    public void unExecute()
-    {
-        ShapeActions.undo();
-    }
 }

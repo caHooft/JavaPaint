@@ -19,9 +19,4 @@ public class SaveCommand implements ICommand
     {
         ShapeActions.save();
     }
-
-    public void unExecute()
-    {
-        ShapeActions.undo();
-    }
 }

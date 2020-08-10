@@ -44,6 +44,8 @@ public class PaintInterface extends JFrame implements ActionListener
   private SaveCommand sSave = new SaveCommand(actions);
   private LoadCommand sLoad = new LoadCommand(actions);
 
+  //putting this seperate for now.
+  //want to map this to the last commands method of unExecute
   private UndoCommand sUndo = new UndoCommand(actions);
 
   public String shapeType;
@@ -149,7 +151,8 @@ public class PaintInterface extends JFrame implements ActionListener
 
   //<<Command Pattern>>
   //
-  //Execute the commands based on the action performed
+  //Execute the commands based on the button pressed by the user
+  //so when the button Clear gets pressed the clear command will be called
   public void actionPerformed(ActionEvent actionEvent) 
   {
     if (actionEvent.getActionCommand().toString() == "Clear") 
@@ -160,8 +163,8 @@ public class PaintInterface extends JFrame implements ActionListener
 
     else if (actionEvent.getActionCommand().toString() == "Text") 
     {
+      //old before command pattern style text stuff
       /*
-      ImageIcon icon = new ImageIcon("src/images/turtle32.png");
       String n = (String)JOptionPane.showInputDialog(null, "Select a position","", JOptionPane.QUESTION_MESSAGE, icon, textPos, textPos[2]);
       String m = JOptionPane.showInputDialog("Enter Text", 42);
       */   
@@ -179,8 +182,7 @@ public class PaintInterface extends JFrame implements ActionListener
     else if (actionEvent.getActionCommand().toString() == "Undo") 
     {
       command.addCommand(sUndo);
-
-      command.unExecuteCommand();
+      command.executeCommand();
     } 
 
     else if (actionEvent.getActionCommand().toString() == "Redo") 

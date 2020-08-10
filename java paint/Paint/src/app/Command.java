@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 // used as the "Broker" replacement for the Command Pattern
+//this is my "Invoker class"
+//this class has all the commands 
 public class Command 
 {
     //Create command instance <<Singleton Pattern>>
@@ -28,15 +30,6 @@ public class Command
         for (ICommand command : commands) 
         {
             command.execute();
-        }
-        commands.clear();
-    }
-
-    public void unExecuteCommand() 
-    {
-        for (ICommand command : commands) 
-        {
-            command.unExecute();
         }
         commands.clear();
     }

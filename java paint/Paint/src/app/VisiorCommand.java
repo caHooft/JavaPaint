@@ -26,10 +26,5 @@ public class VisiorCommand implements ICommand
         //System.out.println(circle.accept(debug) +"henk");
 
         circle.accept(resize);
-        //ShapeActions.undo();
-    }
-    public void unExecute()
-    {
-        ShapeActions.undo();
     }
 }
