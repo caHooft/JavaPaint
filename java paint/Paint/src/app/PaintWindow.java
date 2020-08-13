@@ -34,27 +34,25 @@ public class PaintWindow extends JComponent
   private Point endDrag ;
   private Point clickedPoint;
 
-  //Basiccly helps me to make sure only 1 action takes place at the time
-  private int shapeValue = -1;
-
-  private Shape draggingShape;
   private boolean dragging = false;
 
-  //Sets a vairable set to the frame instance <<Singleton Pattern>>
+  //Sets a vairable set to the frame instance Singleton Pattern
   private PaintInterface frame = PaintInterface.getInstance();
 
-  //Sets a vairable set to the ShapeActions instance <<Singleton Pattern>>
+  //Sets a vairable set to the ShapeActions instance Singleton Pattern
   private ShapeActions actions = ShapeActions.getInstance();
 
   private int oldSX;
   private int oldSY;
+  private int shapeValue = -1;
 
   public String shapeType = frame.getShapeType();
   public ArrayList<BaseShape> shapes = new ArrayList<BaseShape>();
-
   private ArrayList<BaseShape> availableShapes = new ArrayList<BaseShape>();
 
-  //Returns the paintsurface instance <<Singleton Pattern>>
+  //Returns the paintsurface instance Singleton Pattern
+  //we only want 1 paintSurface
+  //we want it to be globally available
   public static PaintWindow getInstance() 
   {
     return instance;
@@ -79,13 +77,13 @@ public class PaintWindow extends JComponent
         //Add text to a shape
         if (shapeType == "Top" || shapeType == "Bottom" || shapeType == "Left" || shapeType == "Right") 
         {
-          for (BaseShape s : shapes) 
+          for (BaseShape baseShape : shapes) 
           {
-            if (s.shape.contains(clickedPoint.x, clickedPoint.y)) 
+            if (baseShape.shape.contains(clickedPoint.x, clickedPoint.y)) 
             {
               actions.saveAction();
               String text = JOptionPane.showInputDialog("Enter text");
-              s.addText(shapeType, text);
+              baseShape.addText(shapeType, text);
             }
           }
         }
@@ -115,24 +113,27 @@ public class PaintWindow extends JComponent
           //here i make the base for the new group
           List<BaseShape> newGroup = new ArrayList<BaseShape>();
           
-          for (BaseShape s : shapes)
+          for (BaseShape baseShape : shapes)
           {
             sCount++;
             //somewhere here is a problem wih detecting shapes!
-            if (s.shape.contains(clickedPoint.x, clickedPoint.y))
+            if (baseShape.shape.contains(clickedPoint.x, clickedPoint.y))
             {
               for (BaseShape x : shapes)
               {
                 //this should detect all shapes inside the dragged 
+                //this doesnt work properly!
+                //dont know why or what part
                 if(x.getX() >= startDrag.x && x.getY() >= startDrag.y && x.getWidth() <= endDrag.x && x.getHeight() <= endDrag.y)
                 {
-                    if(s != x)
+                    if(baseShape != x)
                     {
                       newGroup.add(x);
                     }
                 }
                     //when the code doesnt detect any shapes (circles and rectangles)
                     //this else statement is triggered to warn the user that it failed to detect the shapes
+                    //there are some issues here sometimes this doesnt trigger when it should
                     else
                     {
                       System.out.print("no shapes");
@@ -148,14 +149,20 @@ public class PaintWindow extends JComponent
         else if(shapeType == "Ungroup")
         {
           int sCount = -1;
-          for (BaseShape s : shapes)
+
+          //this should detect all shapes inside the dragged are and than ungroup them
+          //this doesnt work properly!
+          //dont know why or what part
+          for (BaseShape baseShape : shapes)
           {
             sCount++;
-            if(s.shape.contains(clickedPoint.x, clickedPoint.y) && s.GetGroup() != null)
+            if(baseShape.shape.contains(clickedPoint.x, clickedPoint.y) && baseShape.GetGroup() != null)
             {
               ungroup(sCount);
             }
-            
+            //when the code doesnt detect any shapes (circles and rectangles) that are part of the group this triggers
+            //this else statement is triggered to warn the user that it failed to detect the shapes
+            //there are some issues here sometimes this doesnt trigger when it should
             else
             {
               System.out.println("No group found in this shape/ not  parent of a group");
@@ -189,7 +196,8 @@ public class PaintWindow extends JComponent
 
     });
 
-    //Resize or move the shape to a new location based on the position the mouse is dragged to
+    //move the selected shape to a new location based on the mouse position where the user stops dragging
+    //or resize the selected shape based on new mouse position where the user stops dragging
     this.addMouseMotionListener(new MouseMotionAdapter() 
     {
       public void mouseDragged(MouseEvent mouseEvent) 
@@ -201,10 +209,10 @@ public class PaintWindow extends JComponent
           dragging = true;
           if (shapeType == "Resize") 
           {
-            BaseShape s = shapes.get(shapeValue);
+            BaseShape bs = shapes.get(shapeValue);
 
-            startDrag.x = s.getWidth();
-            startDrag.y = s.getHeight();
+            startDrag.x = bs.getWidth();
+            startDrag.y = bs.getHeight();
           } 
           
           else if (shapeType == "Select") 
@@ -217,111 +225,7 @@ public class PaintWindow extends JComponent
     });
   }
 
-  //Create a group based on the selected shape
-  public void group(int ShapeID, List<BaseShape> shape)
-  {
-    BaseShape s = shapes.get(ShapeID);
-    for (BaseShape b : shape)
-      s.CreateGroup(b);
-    actions.saveAction();
-  }
-
-  //Removes the shapes from the group
-  public void ungroup(int ShapeID)
-  {
-    BaseShape s = shapes.get(ShapeID);
-    if(s.GetGroup() != null)
-    {
-      for (BaseShape b : s.GetGroup())
-        s.GetGroup().remove(b);
-    }
-  }
-
-  //Move shape or group of shapes to a new location
-  private void DragObject(int val, Point mouseEvent) 
-  {
-    actions.saveAction();
-    availableShapes.clear();
-    BaseShape s = shapes.get(val);
-
-    oldSX = s.getX();
-    oldSY = s.getY();
-    if(s.GetGroup() != null)
-    {
-      s.move(mouseEvent.x, mouseEvent.y);
-      for(BaseShape b : s.GetGroup())
-      {
-        b.move(b.getX() + (mouseEvent.x - oldSX), b.getY() + (mouseEvent.y - oldSY));
-      }
-    }
-    
-    else if (s.GetGroup() == null)
-    {
-      for (BaseShape x : shapes)
-      {
-        if(x.GetGroup() != null)
-        {
-          if(x.GetGroup().contains(s) && x.GetGroup() != null)
-          {
-            x.move(x.getX() + (mouseEvent.x - oldSX), x.getY() + (mouseEvent.y - oldSY));
-            for(BaseShape t : x.GetGroup())
-              t.move(t.getX() + (mouseEvent.x - oldSX), t.getY() + (mouseEvent.y - oldSY));
-          }
-        } 
-
-        else 
-        {
-          s.move(mouseEvent.x, mouseEvent.y);
-        }
-      }
-    }
-  }
-
-  //Resize a shape or a group of shapes
-  private void ResizeObject(int val, Point point) 
-  {
-    availableShapes.clear();
-    BaseShape s = shapes.get(shapeValue);
-
-    actions.saveAction();
-    oldSX = s.getX();
-    oldSY = s.getY();
-
-    if(s.GetGroup() != null)
-    {
-      s.resize(endDrag.x, endDrag.y);
-
-      for(BaseShape b : s.GetGroup())
-      {
-        b.resize(b.getX() + (endDrag.x - oldSX), b.getY() + (endDrag.y - oldSY));
-      }
-    }
-    else if (s.GetGroup() == null)
-    {
-      for (BaseShape x : shapes)
-      {
-        if(x.GetGroup() != null)
-        {
-          if(x.GetGroup().contains(s) && x.GetGroup() != null)
-          {
-            x.resize(x.getX() + (endDrag.x - oldSX), x.getY() + (endDrag.y - oldSY));
-
-            for(BaseShape t : x.GetGroup())
-            {
-              t.resize(t.getX() + (endDrag.x - oldSX), t.getY() + (endDrag.y - oldSY));
-            }              
-          }
-        }
-        
-         else 
-        {
-          s.resize(endDrag.x, endDrag.y);
-        }
-      }
-    }
-  }
-
-  //Generates the raster type background formation
+  //Generates the background squares
   private void paintBackground(Graphics2D g2d) 
   {
     g2d.setPaint(Color.LIGHT_GRAY);
@@ -341,63 +245,63 @@ public class PaintWindow extends JComponent
   //Handels the "looks" side of things  
   //things like text color size and font
   //also shape/figure colours
-  public void paint(Graphics g) 
+  public void paint(Graphics graphics)
   {
     if (shapeType != "Resize" || shapeType == "Select") 
     {
       availableShapes.clear();
     }
 
-    Graphics2D g2d = (Graphics2D) g;
-    g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    Graphics2D graphics2d = (Graphics2D) graphics;
+    graphics2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-    paintBackground(g2d);
+    paintBackground(graphics2d);
 
     //define colours
     Color[] colors = {Color.GREEN, Color.BLACK, Color.RED, Color.BLUE };
     //define color index
     int colorIndex = 0;
 
-    g2d.setStroke(new BasicStroke(2));
-    g2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.50f));
-    for (BaseShape s : shapes) 
+    graphics2d.setStroke(new BasicStroke(2));
+    graphics2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.50f));
+    for (BaseShape bs : shapes) 
     {
-      if (startDrag != null && s != null && shapeType == "Resize" || shapeType == "Select") 
+      if (startDrag != null && bs != null && shapeType == "Resize" || shapeType == "Select") 
       {
-        if (s.shape.contains(clickedPoint.x, clickedPoint.y)) 
+        if (bs.shape.contains(clickedPoint.x, clickedPoint.y)) 
         {
-          if (!availableShapes.contains(s)) 
+          if (!availableShapes.contains(bs)) 
           {
-            availableShapes.add(s);
+            availableShapes.add(bs);
           }
-          shapeValue = shapes.indexOf(s);
-          g2d.setStroke(new BasicStroke(10));
+          shapeValue = shapes.indexOf(bs);
+          graphics2d.setStroke(new BasicStroke(10));
         }
       }
 
       // this sets the text font/size 
-      g2d.setFont(new Font("Georgia", Font.BOLD, 20));
-      g2d.setPaint(Color.BLACK);
-      if (s.textList.size() != 0) 
+      graphics2d.setFont(new Font("Georgia", Font.BOLD, 20));
+      graphics2d.setPaint(Color.BLACK);
+      if (bs.textList.size() != 0) 
       {
-        for (Text text : s.textList) 
+        for (Text text : bs.textList) 
         {
-          g2d.drawString(text.text, text.x, text.y);
+          graphics2d.drawString(text.text, text.x, text.y);
         }
       }
 
-      g2d.draw(s.shape);
+      graphics2d.draw(bs.shape);
 
       //this part makes a shape fill with a random colour defined in colors array
-      g2d.setPaint(colors[(colorIndex++) % 4]);
-      g2d.fill(s.shape);
+      graphics2d.setPaint(colors[(colorIndex++) % 4]);
+      graphics2d.fill(bs.shape);
     }
 
     if (startDrag != null && endDrag != null) 
     {
       //sets colour and thickness of the dragging visual feedback
-      g2d.setPaint(Color.black);
-      g2d.setStroke(new BasicStroke(5));
+      graphics2d.setPaint(Color.black);
+      graphics2d.setStroke(new BasicStroke(5));
       int x = startDrag.x;
       int y = startDrag.y;
       int w = endDrag.x;
@@ -406,17 +310,17 @@ public class PaintWindow extends JComponent
 
       if (shapeType == "Select" && shapeValue != -1) 
       {
-        BaseShape s = shapes.get(shapeValue);
+        BaseShape bs = shapes.get(shapeValue);
         x = endDrag.x;
         y = endDrag.y;
-        w = s.getWidth();
-        h = s.getHeight();
+        w = bs.getWidth();
+        h = bs.getHeight();
 
-        if (s instanceof Rectangle) 
+        if (bs instanceof Rectangle) 
         {
           r = new Rectangle2D.Float(x, y, w, h);
         }
-         else if (s instanceof Circle) 
+         else if (bs instanceof Circle) 
          {
           r = new Ellipse2D.Float(x, y, w, h);
         }
@@ -424,16 +328,16 @@ public class PaintWindow extends JComponent
 
       if (shapeType == "Resize" && shapeValue != -1) 
       {
-        BaseShape s = shapes.get(shapeValue);
-        x = s.getX();
-        y = s.getY();
+        BaseShape bs = shapes.get(shapeValue);
+        x = bs.getX();
+        y = bs.getY();
         
-        if (s instanceof Rectangle) 
+        if (bs instanceof Rectangle) 
         {
           r = new Rectangle2D.Float(Math.min(x, w), Math.min(y, h), Math.abs(x - w), Math.abs(y - h));
         } 
 
-        else if (s instanceof Circle) 
+        else if (bs instanceof Circle) 
         {
           r = new Ellipse2D.Float(Math.min(x, w), Math.min(y, h), Math.abs(x - w), Math.abs(y - h));
         }
@@ -459,8 +363,112 @@ public class PaintWindow extends JComponent
         r = new Rectangle2D.Float(Math.min(x, w), Math.min(y, h), Math.abs(x - w), Math.abs(y - h));
       }
       
-      g2d.draw(r);
+      graphics2d.draw(r);
     }
   }
 
+  //Create a group based on the selected shape
+  //might be a problem here but unsure where
+  public void group(int ShapeID, List<BaseShape> shape)
+  {
+    BaseShape bs = shapes.get(ShapeID);
+    for (BaseShape baseShape : shape)
+      bs.CreateGroup(baseShape);
+    actions.saveAction();
+  }
+
+  //Removes the shapes from the group
+  public void ungroup(int ShapeID)
+  {
+    BaseShape bs = shapes.get(ShapeID);
+    if(bs.GetGroup() != null)
+    {
+      for (BaseShape baseShape : bs.GetGroup())
+        bs.GetGroup().remove(baseShape);
+    }
+  }
+  //the moveing of groups has some wierd errors mostly when loading multiple shapes
+  //Move shape or group of shapes to a new location
+  private void DragObject(int val, Point mouseEvent) 
+  {
+    actions.saveAction();
+    availableShapes.clear();
+    BaseShape bs = shapes.get(val);
+
+    oldSX = bs.getX();
+    oldSY = bs.getY();
+    if(bs.GetGroup() != null)
+    {
+      bs.move(mouseEvent.x, mouseEvent.y);
+      for(BaseShape baseShape : bs.GetGroup())
+      {
+        baseShape.move(baseShape.getX() + (mouseEvent.x - oldSX), baseShape.getY() + (mouseEvent.y - oldSY));
+      }
+    }
+    
+    else if (bs.GetGroup() == null)
+    {
+      for (BaseShape bs2 : shapes)
+      {
+        if(bs2.GetGroup() != null)
+        {
+          if(bs2.GetGroup().contains(bs) && bs2.GetGroup() != null)
+          {
+            bs2.move(bs2.getX() + (mouseEvent.x - oldSX), bs2.getY() + (mouseEvent.y - oldSY));
+            for(BaseShape baseShape : bs2.GetGroup())
+              baseShape.move(baseShape.getX() + (mouseEvent.x - oldSX), baseShape.getY() + (mouseEvent.y - oldSY));
+          }
+        } 
+        else 
+        {
+          bs.move(mouseEvent.x, mouseEvent.y);
+        }
+      }
+    }
+  }
+
+  //Resize a shape or a group of shapes
+  private void ResizeObject(int val, Point point) 
+  {
+    availableShapes.clear();
+    BaseShape bs = shapes.get(shapeValue);
+
+    actions.saveAction();
+    oldSX = bs.getX();
+    oldSY = bs.getY();
+
+    if(bs.GetGroup() != null)
+    {
+      bs.resize(endDrag.x, endDrag.y);
+
+      for(BaseShape baseShape : bs.GetGroup())
+      {
+        baseShape.resize(baseShape.getX() + (endDrag.x - oldSX), baseShape.getY() + (endDrag.y - oldSY));
+      }
+    }
+    else if (bs.GetGroup() == null)
+    {
+      for (BaseShape x : shapes)
+      {
+        if(x.GetGroup() != null)
+        {
+          if(x.GetGroup().contains(bs) && x.GetGroup() != null)
+          {
+
+            x.resize(x.getX() + (endDrag.x - oldSX), x.getY() + (endDrag.y - oldSY));
+
+            for(BaseShape baseShape : x.GetGroup())
+            {
+              baseShape.resize(baseShape.getX() + (endDrag.x - oldSX), baseShape.getY() + (endDrag.y - oldSY));
+            }              
+          }
+        }
+        
+         else 
+        {
+          bs.resize(endDrag.x, endDrag.y);
+        }
+      }
+    }
+  }
 }
