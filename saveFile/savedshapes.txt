@@ -1,3 +1,7 @@
 group 0
-	ellipse 331 236 101 114
-		ellipse 377 353 100 98
+	rectangle 242 48 124 105
+		ellipse 615 387 28 44
+		ellipse 615 387 28 44
+	group 1
+	ellipse 233 260 141 134
+		ellipse 615 387 28 44

@@ -1,10 +1,8 @@
 package app;
 
 //command pattern
-//text adding
-//this command pattern is in  use under the text button!
-//sadly i cant get tis script to do what i want it to
-//right now it just functions as an undo untill i get an actual idea/plan on how to make it work
+//used to debug visitor
+//is not part of the actual assignment and used for debugging
 public class VisiorCommand implements ICommand
 {
     //DebugVisitor debug = new DebugVisitor();
@@ -20,7 +18,7 @@ public class VisiorCommand implements ICommand
         this.ShapeActions = ShapeActions;
     }
     
-    //Execute the clear command
+    //Execute the debug command
     public void execute()
     {
         //System.out.println(circle.accept(debug) +"henk");

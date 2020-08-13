@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 // used as the "Broker" replacement for the Command Pattern
-//this is my "Invoker class"
+//this is NOT my "Invoker class" this does not call anything it just processes the commands
 //this class has all the commands 
 public class Command 
 {
     //Create command instance <<Singleton Pattern>>
     private static Command instance = new Command();
+
     //Create list of commands
     private List<ICommand> commands = new ArrayList<ICommand>();
 
