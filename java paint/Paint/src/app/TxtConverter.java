@@ -51,18 +51,24 @@ public class TxtConverter
                         repeatTab = tabSpacer.repeat(groupNum+1);
                     }
                     else
+                    {
                         groupNumText += repeatTab +"group" + " "+groupNum +"\n";
+                    }
                     for (Text text : s.textList)
+                    {
+                        
                         stringText += "ornament " + text.textPosition + " \""+ text.text + "\"\n";
+
+                    }
                     if (s instanceof Rectangle) 
                     {
-                        outputStreamWriter
-                                .write(groupNumText + repeatTab +stringText + "rectangle" + " " + s.getX() + " " + s.getY() + " " + s.getWidth() + " " + s.getHeight() + '\n');
+                        outputStreamWriter.write(groupNumText + repeatTab +stringText + "rectangle" + " " + s.getX() + " " + s.getY() + " " + s.getWidth() + " " + s.getHeight() + '\n');
                         System.out.println(stringText + "Rectangle: " + s.getX() + " " + s.getY() + " " + s.getWidth() + " " + s.getHeight());
-                    } else if (s instanceof Circle)
+                    } 
+                    
+                    else if (s instanceof Circle)
                     {
-                        outputStreamWriter
-                                .write(groupNumText + repeatTab +stringText + "ellipse" + " " + s.getX() + " " + s.getY() + " " + s.getWidth() + " " + s.getHeight() + '\n');
+                        outputStreamWriter.write(groupNumText + repeatTab +stringText + "ellipse" + " " + s.getX() + " " + s.getY() + " " + s.getWidth() + " " + s.getHeight() + '\n');
                         System.out.println(stringText + "Ellipse: " + s.getX() + " " + s.getY() + " " + s.getWidth() + " " + s.getHeight());
                     }
                     for (BaseShape b : s.GetGroup())
@@ -74,15 +80,13 @@ public class TxtConverter
         
                         if (b instanceof Rectangle)
                          {
-                            outputStreamWriter
-                                    .write(repeatTab +stringText + repeatTab +"rectangle" + " " + b.getX() + " " + b.getY() + " " + b.getWidth() + " " + b.getHeight() + '\n');
+                            outputStreamWriter.write(repeatTab +stringText + repeatTab +"rectangle" + " " + b.getX() + " " + b.getY() + " " + b.getWidth() + " " + b.getHeight() + '\n');
                             System.out.println(stringText + "Rectangle: " + b.getX() + " " + b.getY() + " " + b.getWidth() + " " + b.getHeight());
                         } 
                         
                         else if (b instanceof Circle) 
                         {
-                            outputStreamWriter
-                                    .write(repeatTab +stringText + repeatTab +"ellipse" + " " + b.getX() + " " + b.getY() + " " + b.getWidth() + " " + b.getHeight() + '\n');
+                            outputStreamWriter.write(repeatTab +stringText + repeatTab +"ellipse" + " " + b.getX() + " " + b.getY() + " " + b.getWidth() + " " + b.getHeight() + '\n');
                             System.out.println(stringText + "Ellipse: " + b.getX() + " " + b.getY() + " " + b.getWidth() + " " + b.getHeight());
                         }
                     }
@@ -173,7 +177,8 @@ public class TxtConverter
                     if (matcher.find())
                      {
                         BaseShape rectangle = new Rectangle();
-                        rectangle.draw(Integer.parseInt(matcher.group(2)), Integer.parseInt(matcher.group(3)),
+                        rectangle.draw
+                                (Integer.parseInt(matcher.group(2)), Integer.parseInt(matcher.group(3)),
                                 Integer.parseInt(matcher.group(2)) + Integer.parseInt(matcher.group(4)),
                                 Integer.parseInt(matcher.group(3)) + Integer.parseInt(matcher.group(5)));
                         tA.add(rectangle);

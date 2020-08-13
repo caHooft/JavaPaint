@@ -8,7 +8,7 @@ import java.util.List;
 
 //in my composite pattern i use base shape as a container class/composite class
 //base shape in this project represents my complex elements
-//base shape delegates most f the work to his sub elements
+//base shape delegates most of the work to his sub elements
 //sub elements of base shape are circle and rectangle
 //when i call a method here the objects that implements this class pass the request down the "tree" of the composite pattern
 
@@ -38,6 +38,7 @@ public abstract class BaseShape implements IShapes
     ShapeActions actions = ShapeActions.getInstance();
     
     //Constructor
+    //strategy pattern
     public BaseShape(IDrawStrategy drawBehaviour, IMoveStrategy moveBehaviour, IResizeStrategy resizeBehaviour, Shape shape) 
     {
         this.drawBehaviour = drawBehaviour;
