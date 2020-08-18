@@ -96,13 +96,13 @@ public class PaintWindow extends JComponent
         availableShapes.clear();
         if (shapeType == "Rectangle") 
         {
-          IShapes rectangle = new Decorator(new Rectangle());
+          IShapes rectangle = new ConcreteDecorator(new Rectangle());
           rectangle.draw(startDrag.x, startDrag.y, mouseEvent.getX(), mouseEvent.getY());
         }
         
         else if (shapeType == "Oval") 
         {
-          IShapes oval = new Decorator(new Circle());
+          IShapes oval = new ConcreteDecorator(new Circle());
           oval.draw(startDrag.x, startDrag.y, mouseEvent.getX(), mouseEvent.getY());
         }
         else if(shapeType == "Group")

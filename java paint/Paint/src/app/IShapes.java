@@ -10,6 +10,9 @@ package app;
 //base shape delegates most f the work to his sub elements
 //sub elements of base shape are circle and rectangle
 
+//decorator pattern uses this as its component step
+//The IShapes interface declares the common interface for both wrappers and wrapped objects.
+
 public interface IShapes
 {
     void draw(int sx, int sy, int ex, int ey);

@@ -1,15 +1,15 @@
 package app;
 
 //Class that can decorate a shape
-//This script is under inspection!
-//no direct errors but needs inspecting!
-public abstract class ShapeDecorator implements IShapes 
+//BaseDecorator has a field for referencing a wrapped object 
+//The base decorator delegates all operations to the wrapped object
+public abstract class BaseDecorator implements IShapes 
 {
     //Shape to decorate
     protected BaseShape decoratedShape;
    
     //constructor
-    public ShapeDecorator(BaseShape decoratedShape)
+    public BaseDecorator(BaseShape decoratedShape)
     {
        this.decoratedShape = decoratedShape;
     }

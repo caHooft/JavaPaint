@@ -1,11 +1,12 @@
 package app;
 
 //Decorates a shape
-//this SHOULD work but isnt tested 
-public class Decorator extends ShapeDecorator 
+//ConcreteDecorator defines extra behaviors that can be added to components dynamically. 
+//Concrete decorators overrides methods of the base decorator and execute their behavior either before or after calling the parent method.
+public class ConcreteDecorator extends BaseDecorator 
 {
    //constructor
-   public Decorator(BaseShape decoratedShape) 
+   public ConcreteDecorator(BaseShape decoratedShape) 
    {
       super(decoratedShape);
    }
@@ -19,6 +20,6 @@ public class Decorator extends ShapeDecorator
    @Override
    public void addText(String position, String text) 
    {
-
+      //
    }
 }
