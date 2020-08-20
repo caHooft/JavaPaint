@@ -12,6 +12,6 @@ public class UndoCommand implements ICommand
     //executes the command
     public void execute()
     {
-        ShapeActions.undo();
+        ShapeActions.undoMove();
     }
 }

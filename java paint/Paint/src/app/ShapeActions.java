@@ -36,7 +36,7 @@ public class ShapeActions
   }
 
   //Undo the previous move
-  public void undo() 
+  public void undoMove() 
   {
     if (undo.size() <= 0)
       return;
@@ -77,7 +77,7 @@ public class ShapeActions
   }
 
   //Redo to previous move
-  public void redo() 
+  public void redoMove() 
   {
     if (redo.size() <= 0)
       return;

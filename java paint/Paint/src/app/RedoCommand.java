@@ -15,6 +15,6 @@ public class RedoCommand implements ICommand
     //Execute the command
     public void execute()
     {
-        ShapeActions.redo();
+        ShapeActions.redoMove();
     }
 }
