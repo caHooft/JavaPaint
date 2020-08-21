@@ -1,17 +1,9 @@
 group 0
-	rectangle 148 137 75 109
-		rectangle 451 346 76 77
-		rectangle 646 153 18 71
-		ellipse 730 562 62 94
-		rectangle 451 346 76 77
-		ellipse 434 441 91 145
-		ellipse 730 562 62 94
-		ellipse 871 480 63 131
-	group 1
-	rectangle 451 346 76 77
-		ellipse 434 441 91 145
-		ellipse 730 562 62 94
-		ellipse 871 480 63 131
-rectangle 85 480 151 168
-rectangle 646 153 18 71
-ellipse 96 332 90 128
+	ellipse 95 56 51 51
+		rectangle 246 108 44 42
+		rectangle 246 108 44 42
+		rectangle 337 132 83 86
+		rectangle 477 112 103 79
+		rectangle 246 108 44 42
+		rectangle 337 132 83 86
+		rectangle 477 112 103 79

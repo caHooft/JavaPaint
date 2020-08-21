@@ -167,12 +167,13 @@ public class PaintInterface extends JFrame implements ActionListener
       /*
       String n = (String)JOptionPane.showInputDialog(null, "Select a position","", JOptionPane.QUESTION_MESSAGE, icon, textPos, textPos[2]);
       String m = JOptionPane.showInputDialog("Enter Text", 42);
-      */   
+        
       //String n = (String)JOptionPane.showInputDialog(null, "Select a position","", JOptionPane.QUESTION_MESSAGE, null, textPos, textPos[2]);
       //String m = JOptionPane.showInputDialog("Enter Text", 42);
       //shapeType = (String) positionList.getSelectedItem();
       //shapeType = (String) textList.getSelectedItem();
       //shapeType = m;
+      */ 
       
       command.addCommand(sText);
       command.executeCommand();

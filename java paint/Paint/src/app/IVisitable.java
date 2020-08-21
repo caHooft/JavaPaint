@@ -1,5 +1,4 @@
 package app;
-import java.awt.*;
 
 //Visitor Pattern
 //Define an interface to repressent element

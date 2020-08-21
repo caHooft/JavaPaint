@@ -48,7 +48,6 @@ public abstract class BaseShape implements IShapes
     }
     //Clone the BaseShape
     public abstract BaseShape clone();
-
         //add the shape through the ShapeActions instance Command Pattern
         public void AddToArray() 
         {

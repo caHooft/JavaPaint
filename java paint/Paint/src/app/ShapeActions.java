@@ -1,6 +1,4 @@
 package app;
-
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -8,16 +6,16 @@ import java.util.logging.Logger;
 // used as the "BuyStock" replacement for the Command Pattern
 public class ShapeActions
  {
-  //singleton object, Create instance
+  //singleton pattern instance
   private static ShapeActions instance = new ShapeActions();
 
   //Create new TextConverter
-  private TxtConverter f = new TxtConverter();
+  private TxtConverter txtConverter = new TxtConverter();
 
   //Uses the PaintSurface
   public PaintWindow surface;
 
-  //Create new list of actions (undo/redo)
+  //Create a list of actions to undo/redo
   public ArrayList<ArrayList<BaseShape>> undo = new ArrayList<ArrayList<BaseShape>>();
   public ArrayList<ArrayList<BaseShape>> redo = new ArrayList<ArrayList<BaseShape>>();
 
@@ -38,11 +36,17 @@ public class ShapeActions
   //Undo the previous move
   public void undoMove() 
   {
+    //here i catch the possibility of there not being anything to undo
     if (undo.size() <= 0)
+    {
       return;
+    }
 
+    //first i add a redo action for the thing i undo
     redo.add(clone(surface.shapes));
+
     surface.shapes = clone(undo.get(undo.size() - 1));
+    //remove the thing i just undid
     undo.remove(undo.size() - 1);
     surface.repaint();
   }
@@ -53,7 +57,7 @@ public class ShapeActions
   {
     try 
     {
-      f.SaveShapeToFile(surface.shapes);
+      txtConverter.SaveShapeToFile(surface.shapes);
     }
      catch (Exception ex)     
     {
@@ -67,7 +71,7 @@ public class ShapeActions
   {
     try 
     {
-      f.LoadShapeFromFile();
+      txtConverter.LoadShapeFromFile();
     } 
 
     catch (Exception ex)
@@ -79,11 +83,17 @@ public class ShapeActions
   //Redo to previous move
   public void redoMove() 
   {
+    //catch the possibility of there not being anything to redo
     if (redo.size() <= 0)
+    {
       return;
+    }
 
+    //first i add a undo action for the thing i redo
     undo.add(clone(surface.shapes));
+
     surface.shapes = clone(redo.get(redo.size() - 1));
+    //remove the thing i redid
     redo.remove(redo.size() - 1);
     surface.repaint();
   }
