@@ -116,14 +116,15 @@ public class PaintWindow extends JComponent
           {
             sCount++;
             //somewhere here is a problem wih detecting shapes!
-            if (baseShape.shape.contains(clickedPoint.x, clickedPoint.y))
-            {
               for (BaseShape x : shapes)
               {
                 //this should detect all shapes inside the dragged 
                 //this doesnt work properly!
                 //dont know why or what part
-                if(x.getX() >= startDrag.x && x.getY() >= startDrag.y && x.getWidth() <= endDrag.x && x.getHeight() <= endDrag.y)
+                if(x.getX() >= (Math.min(startDrag.x, endDrag.x)) && 
+                   x.getY() >= (Math.min(startDrag.y, endDrag.y)) &&
+                   x.getX() + x.getWidth() <= Math.max(startDrag.x, endDrag.x) &&
+                   x.getY() + x.getHeight() <= Math.max(startDrag.y, endDrag.y))
                 {
                     if(baseShape != x)
                     {
@@ -137,7 +138,7 @@ public class PaintWindow extends JComponent
                     {
                       System.out.print("no shapes");
                     }
-              }
+              
               //here i give back the new group with number sCount en the shapes in the group are given as newGroup
               group(sCount, newGroup);
               actions.saveAction();
