@@ -27,6 +27,8 @@ public class TxtConverter
     private int groupNum = -1;
 
     //Create a savefile in txt format
+    //has an error where it saves multiple groups
+    //these multiple groups also have the correct position but not the correct number of shapes
     public void SaveShapeToFile(ArrayList<BaseShape> shapeList) throws Exception 
     {
         String fileName = "savedshapes";
@@ -72,6 +74,7 @@ public class TxtConverter
                         outputStreamWriter.write(groupNumText + repeatTab +stringText + "ellipse" + " " + s.getX() + " " + s.getY() + " " + s.getWidth() + " " + s.getHeight() + '\n');
                         System.out.println(stringText + "Ellipse: " + s.getX() + " " + s.getY() + " " + s.getWidth() + " " + s.getHeight());
                     }
+
                     for (BaseShape b : s.GetGroup())
                     {
                         for (Text text : b.textList) 
@@ -134,6 +137,7 @@ public class TxtConverter
     }
     
     //Load the savefile from txt format
+    //this part is fine
     public void LoadShapeFromFile() throws Exception 
     {
 

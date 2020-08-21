@@ -17,4 +17,8 @@ public interface IShapes
 {
     void draw(int sx, int sy, int ex, int ey);
     void addText(String position, String text);
+
+    //still needs to be implemented
+    //void move(String position, String text);
+    //void resize(String position, String text);
 }

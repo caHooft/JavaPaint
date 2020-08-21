@@ -30,7 +30,9 @@ public abstract class BaseShape implements IShapes
 
     //composite pattern
     //Create list of BaseShapes who are in the same shapeGroup 
-    List<BaseShape> shapeGroup;
+
+    //comment this
+   List<BaseShape> shapeGroup;
      
     Shape shape;
 

@@ -122,7 +122,8 @@ public class PaintWindow extends JComponent
                    x.getY() >= (Math.min(startDrag.y, endDrag.y)) &&
                    x.getX() + x.getWidth() <= Math.max(startDrag.x, endDrag.x) &&
                    x.getY() + x.getHeight() <= Math.max(startDrag.y, endDrag.y))
-                {
+                
+                   {
                     if(baseShape != x)
                     {
                       newGroup.add(x);
@@ -362,7 +363,6 @@ public class PaintWindow extends JComponent
   }
 
   //Create a group based on the selected shape
-  //might be a problem here but unsure where
   public void group(int ShapeID, List<BaseShape> shape)
   {
     BaseShape bs = shapes.get(ShapeID);
@@ -382,6 +382,7 @@ public class PaintWindow extends JComponent
     }
   }
   //the moveing of groups has some wierd errors mostly when loading multiple shapes
+  //this is caused by the issue that the initial shape is the anchorpoint for the application
   //Move shape or group of shapes to a new location
   private void DragObject(int val, Point mouseEvent) 
   {
