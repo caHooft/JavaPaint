@@ -30,6 +30,7 @@ public class TxtConverter
     public void SaveShapeToFile(ArrayList<BaseShape> shapeList) throws Exception 
     {
         String fileName = "savedshapes";
+
         new File(standardFilePath + "/saveFile").mkdirs();
         FileOutputStream fileStream = new FileOutputStream(new File(standardFilePath + savedItemPath + fileName + ".txt"));
 
@@ -112,15 +113,13 @@ public class TxtConverter
 
                                     if (s instanceof Rectangle) 
                                     {
-                                        outputStreamWriter
-                                                .write(stringText + "rectangle" + " " +s.getX() + " " + s.getY() + " " + s.getWidth() + " " + s.getHeight() + '\n');
+                                        outputStreamWriter.write(stringText + "rectangle" + " " +s.getX() + " " + s.getY() + " " + s.getWidth() + " " + s.getHeight() + '\n');
                                         System.out.println(stringText + "Rectangle: " + s.getX() + " " + s.getY() + " " + s.getWidth() + " " + s.getHeight());
                                     } 
 
                                     else if (s instanceof Circle) 
                                     {
-                                        outputStreamWriter
-                                                .write(stringText + "ellipse" + " " + s.getX() + " " + s.getY() + " " + s.getWidth() + " " + s.getHeight() + '\n');
+                                        outputStreamWriter.write(stringText + "ellipse" + " " + s.getX() + " " + s.getY() + " " + s.getWidth() + " " + s.getHeight() + '\n');
                                         System.out.println(stringText + "Ellipse: " + s.getX() + " " + s.getY() + " " + s.getWidth() + " " + s.getHeight());
                                     }
                                 }

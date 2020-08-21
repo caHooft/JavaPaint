@@ -106,7 +106,7 @@ public class PaintWindow extends JComponent
         }
         else if(shapeType == "Group")
         {
-          //here declare the number i use to iterate the group (first will be group 1 than 2 etc)
+          //counts number of shapes
           int sCount = -1;
 
           //here i make the base for the new group
@@ -115,12 +115,9 @@ public class PaintWindow extends JComponent
           for (BaseShape baseShape : shapes)
           {
             sCount++;
-            //somewhere here is a problem wih detecting shapes!
               for (BaseShape x : shapes)
               {
-                //this should detect all shapes inside the dragged 
-                //this doesnt work properly!
-                //dont know why or what part
+                //this should detect all shapes inside the dragged box!
                 if(x.getX() >= (Math.min(startDrag.x, endDrag.x)) && 
                    x.getY() >= (Math.min(startDrag.y, endDrag.y)) &&
                    x.getX() + x.getWidth() <= Math.max(startDrag.x, endDrag.x) &&
@@ -133,7 +130,6 @@ public class PaintWindow extends JComponent
                 }
                     //when the code doesnt detect any shapes (circles and rectangles)
                     //this else statement is triggered to warn the user that it failed to detect the shapes
-                    //there are some issues here sometimes this doesnt trigger when it should
                     else
                     {
                       System.out.print("no shapes");
@@ -151,8 +147,6 @@ public class PaintWindow extends JComponent
           int sCount = -1;
 
           //this should detect all shapes inside the dragged are and than ungroup them
-          //this doesnt work properly!
-          //dont know why or what part
           for (BaseShape baseShape : shapes)
           {
             sCount++;
